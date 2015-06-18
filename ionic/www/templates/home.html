@@ -1,7 +1,39 @@
-<ion-view view-title="Home">
+<ion-view view-title="{{_.Sheet.settings.title}}">
 
-	<ion-content>
-		<a class="button" ui-sref="sideMenus.sub">Go To Sub</a>
+	<ion-content class="has-subfooter" style="bottom:118px;">
+		<div ng-hide="_.G.sheetId">
+			<i class="icon ion-arrow-left-c"></i>Load your sheet
+		</div>
+		<div ng-show="_.G.sheetId">
+			<div class="button-bar">
+				<a ng-click="_.changeIndex('start')" ng-disabled="_.Sheet.playIndex <= 0" class="button icon ion-skip-backward"></a>
+				<a ng-click="_.changeIndex('prev')" ng-disabled="_.Sheet.playIndex <= 0" class="button icon ion-arrow-left-b"></a>
+				<a ng-hide="_.Sheet.isPlaying" ng-disabled="!_.Sheet.raw.length" ng-click="_.play()" class="button icon ion-play"></a>
+				<a ng-show="_.Sheet.isPlaying" ng-disabled="!_.Sheet.raw.length" ng-click="_.play()" class="button icon ion-pause"></a>
+				<a ng-click="_.changeIndex('next')" ng-disabled="_.Sheet.playIndex >= _.Sheet.raw.length - 1" class="button icon ion-arrow-right-b"></a>
+				<a ng-click="_.changeIndex('end')" ng-disabled="_.Sheet.playIndex >= _.Sheet.raw.length - 1" class="button icon ion-skip-forward"></a>
+			</div>
+			<note ng-click="_.changeIndex($index)" ng-repeat="note in _.Sheet.raw" note="note" ng-class="{assertive:$index === _.Sheet.playIndex}"></note>
+		</div>
 	</ion-content>
 
+	<div ng-show="_.G.editing" class="bar bar-subfooter" style="bottom:74px;">
+		<div class="button-bar">
+			<a ng-click="_.edit('num', num)" ng-repeat="num in [1,2,3,4,5,6,7]" class="button">{{num}}</a>
+			<a ng-click="_.edit('reset')" class="button">0</a>
+		</div>
+		<div class="button-bar">
+			<a ng-click="_.edit('tempo', tempo)" ng-repeat="tempo in [1,2,4,8,16,32]" class="button">/<sub>{{tempo}}</sub></a>
+		</div>
+		<div class="button-bar">
+			<a ng-click="_.edit('add', 'before')" class="button">+</a>
+			<a ng-click="_.edit('octaves', '-')" class="button"><sub>&#x26AB;<sub></a>
+			<a ng-click="_.edit('octaves', '+')" class="button"><sup>&#x26AB;<sup></a>
+			<a ng-click="_.edit('remove')" class="button">&#x2613;</a>
+			<a ng-click="_.edit('accidentals', 'b')" class="button">&#x266D;</a>
+			<a ng-click="_.edit('accidentals', 'N')" class="button">&#x266E;</a>
+			<a ng-click="_.edit('accidentals', '#')" class="button">&#x266F;</a>
+			<a ng-click="_.edit('add', 'after')" class="button">+</a>
+		</div>
+	</div>
 </ion-view>

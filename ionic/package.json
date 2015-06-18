@@ -19,7 +19,11 @@
     "cordova-plugin-console",
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
-    "com.ionic.keyboard"
+    "com.ionic.keyboard",
+    {
+      "id": "com.ionic.deploy",
+      "locator": "ionic-plugins-deploy/"
+    }
   ],
   "cordovaPlatforms": [
     "android"

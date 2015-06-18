@@ -1,43 +1,84 @@
-	<ion-side-menus enable-menu-with-back-views="false">
+<ion-side-menus enable-menu-with-back-views="false">
 
-		<ion-side-menu side="left">
-			<ion-header-bar align-title="center">
-				<h1 class="title">Settings</h1>
-			</ion-header-bar>
+	<ion-side-menu side="left">
+		<ion-header-bar align-title="center">
+			<div class="buttons">
+				<a menu-close ng-click="_.addSheet()" class="button button-icon icon ion-plus"></a>
+			</div>
+			<h1 class="title">Sheets</h1>
+		</ion-header-bar>
 
-			<ion-content>
-				<ion-list>
-					<a ui-sref="sideMenus.{{item}}" ng-repeat="item in ['home','sub']" nav-clear class="item">Page {{item}}</a>
-				</ion-list>
-			</ion-content>
-		</ion-side-menu>
+		<ion-content>
+			<ion-list>
+				<ion-item menu-close ng-click="_.setSheet(sheet)" ng-repeat="sheet in _.sheets" nav-clear class="item">{{sheet.name}}</ion-item>
+			</ion-list>
+		</ion-content>
+	</ion-side-menu>
 
-		<ion-side-menu side="right">
-			<ion-header-bar align-title="center">
-				<h1 class="title">Settings</h1>
-			</ion-header-bar>
+	<ion-side-menu side="right">
+		<ion-header-bar align-title="center">
+			<h1 class="title">Settings</h1>
+		</ion-header-bar>
 
-			<ion-content>
-				<ion-toggle>A</ion-toggle>
-				<ion-toggle>B</ion-toggle>
-				<ion-toggle>C</ion-toggle>
-			</ion-content>
-		</ion-side-menu>
+		<ion-content>
+			<div class="item range range-positive">
+				<span>BPM:</span>
+				<input ng-model="_.Sheet.settings.bpm" type="range" name="volume" min="1" max="300">
+				<span>{{_.Sheet.settings.bpm}}</span>
+			</div>
+			<label class="item item-input item-select">
+				<div class="input-label">Beat:</div>
+				<select disabled>
+					<option>{{_.Sheet.settings.beat.denominator}}/{{_.Sheet.settings.beat.numerator}}</option>
+				</select>
+			</label>
+			<label class="item item-input item-select">
+				<div class="input-label">Key:</div>
+				<select ng-change="_.setKey()" ng-model="_.Sheet.settings.key.name">
+					<option>A</option>
+					<option>B</option>
+					<option>C</option>
+					<option>D</option>
+					<option>E</option>
+					<option>F</option>
+					<option>G</option>
+				</select>
+			</label>
+			<label class="item item-input item-select">
+				<div class="input-label">Key Symbol:</div>
+				<select ng-change="_.setKey()" ng-model="_.Sheet.settings.key.symbol">
+					<option value="">None</option>
+					<option>#</option>
+					<option>b</option>
+				</select>
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Frequency:</span>
+				<input ng-model="_.Sheet.settings.frequency" type="number" min="0" step="0.01">
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Title:</span>
+				<input ng-model="_.Sheet.settings.title" type="text">
+			</label>
+			<button menu-close ng-click="_.save()" class="button button-block">{{_.G.editing ? 'Save' : 'Edit'}}</button>
+			<button menu-close ng-click="_.delete()" class="button button-block button-assertive">Delete</button>
+		</ion-content>
+	</ion-side-menu>
 
-		<ion-side-menu-content>
-			<ion-nav-bar align-title="center">
-				<ion-nav-back-button class="button-icon ion-arrow-left-c"></ion-nav-back-button>
+	<ion-side-menu-content>
+		<ion-nav-bar align-title="center">
+			<ion-nav-back-button class="button-icon ion-arrow-left-c"></ion-nav-back-button>
 
-				<ion-nav-buttons side="left">
-					<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-				</ion-nav-buttons>
+			<ion-nav-buttons side="left">
+				<a menu-toggle="left" class="button button-icon icon ion-navicon"></a>
+			</ion-nav-buttons>
 
-				<ion-nav-buttons side="right">
-					<button menu-toggle="right" class="button button-icon icon ion-gear-a"></button>
-				</ion-nav-buttons>
-			</ion-nav-bar>
+			<ion-nav-buttons side="right">
+				<a menu-toggle="right" ng-disabled="!_.G.sheetId" class="button button-icon icon ion-gear-a"></a>
+			</ion-nav-buttons>
+		</ion-nav-bar>
 
-			<ion-nav-view name="sideMenus"></ion-nav-view>
-		</ion-side-menu-content>
+		<ion-nav-view name="sideMenus"></ion-nav-view>
+	</ion-side-menu-content>
 
-	</ion-side-menus>
+</ion-side-menus>

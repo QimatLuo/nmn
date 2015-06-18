@@ -1,0 +1,10 @@
+<div class="text-center" style="display:inline-block;">
+	<div ng-repeat="octave in _.octaves('+') track by $index" style="border:1px solid; width:0; margin:1px auto;"></div>
+	<div>
+		<sup ng-repeat="accidental in _.note.accidentals track by $index">{{_.accidentalsMap[accidental]}}</sup>{{_.note.num}}
+		<span ng-if="_.note.tempo === 1">---</span>
+		<span ng-if="_.note.tempo === 2">-</span>
+	</div>
+	<div ng-repeat="tempo in _.underline track by $index" style="border-bottom: 1px solid; margin-bottom:1px;"></div>
+	<div ng-repeat="octave in _.octaves('-') track by $index" style="border:1px solid; width:0; margin:1px auto;"></div>
+</div>
