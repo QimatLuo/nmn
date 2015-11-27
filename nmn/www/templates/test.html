@@ -1,0 +1,39 @@
+<ion-view view-title="Test">
+	<ion-content>
+		<form>
+			<div class="list">
+				<div class="item item-divider">Number</div>
+				<ion-radio ng-click="vm.test(number)" ng-repeat="number in [1,2,3,4,5,6,7,0]" ng-model="vm.note.n" ng-value="number" name="number">
+					{{number}}
+				</ion-radio>
+				<div class="item item-divider">Octave</div>
+				<ion-radio ng-repeat="octave in [0,1,-1]" ng-model="vm.note.o" ng-value="octave" name="octave">
+					{{octave}}
+				</ion-radio>
+				<div class="item item-divider">Tempo</div>
+				<ion-radio ng-repeat="tempo in [1,2,4,8]" ng-model="vm.note.t" ng-value="tempo" name="tempo">
+					1/{{tempo}}
+				</ion-radio>
+				<ion-radio ng-repeat="tempo in [16,32]" ng-model="vm.note.t" ng-value="tempo" name="tempo">
+					1/{{tempo}}
+				</ion-radio>
+				<div class="item item-divider">Dotted</div>
+				<ion-radio ng-repeat="dotted in [0,1]" ng-model="vm.note.d" ng-value="dotted" name="dotted">
+					{{dotted === 1 ? 'On' : 'Off'}}
+				</ion-radio>
+			</div>
+		</form>
+		<div class="button-bar">
+			<a ng-click="vm.play()" class="button">Play</a>
+			<a ng-click="vm.stop()" class="button">Stop</a>
+			<a ng-click="vm.add()" class="button">Add</a>
+			<a ng-click="vm.remove()" class="button">Remove</a>
+		</div>
+		<div class="button-bar">
+			<a ng-click="vm.load()" class="button">Load</a>
+			<a ng-click="vm.save()" class="button">Save</a>
+			<a ng-click="vm.song()" class="button">Song</a>
+		</div>
+		<pre>{{vm.tab}}</pre>
+	</ion-content>
+</ion-view>

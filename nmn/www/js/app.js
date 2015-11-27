@@ -4,7 +4,9 @@
 	angular
 		.module(
 			'starter', [
+				'controllers',
 				'ionic',
+				'nmn',
 			]
 		)
 		.config(config)
@@ -16,26 +18,25 @@
 		$stateProvider,
 		$urlRouterProvider
 	) {
-		/*
 		$stateProvider
-			.state('login', {
-				controller: 'Login as _',
-				templateUrl: 'templates/login.html',
-				url: '/login',
+			.state('test', {
+				controller: 'Test as vm',
+				templateUrl: 'templates/test.html',
+				url: '/test',
 			})
 
 		;
 
-		$urlRouterProvider.otherwise('/login');
-		*/
+		$urlRouterProvider.otherwise('/test');
 	}
 
 	function run(
+		nmn,
 		$ionicPlatform
 	) {
 		$ionicPlatform.ready(
 			function() {
-				console.log('ready');
+				window.nmn = nmn;
 			}
 		);
 	}

@@ -21,3 +21,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.item-radio {
+	width: 25%;
+	float: left;
+}
+.item-divider {
+	clear: both;
+}
