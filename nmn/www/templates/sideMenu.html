@@ -1,0 +1,58 @@
+<ion-side-menus enable-menu-with-back-views="false">
+	<ion-side-menu-content>
+		<ion-nav-bar class="bar-stable">
+			<ion-nav-back-button></ion-nav-back-button>
+
+			<ion-nav-buttons side="left">
+				<button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+			</ion-nav-buttons>
+
+			<ion-nav-buttons side="right">
+				<button class="button button-icon button-clear ion-gear-a" menu-toggle="right"></button>
+			</ion-nav-buttons>
+		</ion-nav-bar>
+
+		<ion-nav-view name="menuContent"></ion-nav-view>
+	</ion-side-menu-content>
+
+	<ion-side-menu side="left">
+		<ion-header-bar class="bar-stable">
+			<h1 class="title">Notation List</h1>
+		</ion-header-bar>
+		<ion-content>
+			<ion-list>
+				<ion-item ng-click="vm.select()" menu-close class="item item-icon-left">
+					<i class="icon ion-plus"></i>
+					Add New
+				</ion-item>
+				<ion-item ng-click="vm.select(key)" ng-repeat="(key, value) in vm.list" menu-close>{{key}}</ion-item>
+			</ion-list>
+		</ion-content>
+	</ion-side-menu>
+
+	<ion-side-menu side="right">
+		<ion-header-bar class="bar-stable">
+			<h1 class="title">Settings</h1>
+		</ion-header-bar>
+		<ion-content>
+			<div class="list">
+				<label class="item item-input">
+					<span class="input-label">Name</span>
+					<input ng-model="vm.name" type="text">
+				</label>
+			</div>
+			<div class="button-bar">
+				<a ng-click="vm.minus('bpm')" class="button icon ion-minus-circled"></a>
+				<a class="button">bpm: {{vm.nmn.settings.bpm}}</a>
+				<a ng-click="vm.plus('bpm')" class="button icon ion-plus-circled"></a>
+			</div>
+			<div class="button-bar">
+				<a ng-click="vm.minus('pitch')" class="button icon ion-minus-circled"></a>
+				<a class="button">pitch: {{vm.nmn.settings.pitch}}</a>
+				<a ng-click="vm.plus('pitch')" class="button icon ion-plus-circled"></a>
+			</div>
+			<button ng-click="vm.confirm('Save')" class="button button-block button-positive">Save</button>
+			<button ng-click="vm.confirm('Delete')" class="button button-block button-assertive">Delete</button>
+		</ion-content>
+	</ion-side-menu>
+</ion-side-menus>

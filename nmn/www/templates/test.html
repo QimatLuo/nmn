@@ -1,0 +1,38 @@
+<ion-view view-title="Numbered Musical Notation">
+	<ion-content>
+		<form>
+			<div class="list">
+				<div class="item item-divider">Dotted</div>
+				<ion-radio ng-repeat="dotted in [0,1,2,3]" ng-model="vm.note.d" ng-value="dotted" name="dotted">
+					{{dotted}}
+				</ion-radio>
+				<div class="item item-divider">Octave</div>
+				<ion-radio ng-repeat="octave in [-1,0,1,2]" ng-model="vm.note.o" ng-value="octave" name="octave">
+					{{octave}}
+				</ion-radio>
+				<div class="item item-divider">Accidentals</div>
+				<ion-radio ng-repeat="accidentals in ['','♭','♯']" ng-model="vm.note.a" ng-value="accidentals" name="accidentals">
+					{{accidentals || 'N/A'}}
+				</ion-radio>
+				<div class="item item-divider">Tempo</div>
+				<ion-radio ng-repeat="tempo in [0.25,0.5,1,2,4,8,16,32]" ng-model="vm.note.t" ng-value="tempo" name="tempo">
+					1/{{tempo}}
+				</ion-radio>
+				<div class="item item-divider">Number</div>
+				<ion-radio ng-click="vm.test(number)" ng-repeat="number in [0,1,2,3,4,5,6,7]" ng-model="vm.note.n" ng-value="number" name="number">
+					{{number}}
+				</ion-radio>
+			</div>
+		</form>
+		<div class="button-bar">
+			<a ng-click="vm.add(0)" class="button">Prepend</a>
+			<a ng-click="vm.remove()" class="button">Remove</a>
+			<a ng-click="vm.add(1)" class="button">Append</a>
+		</div>
+		<nmn-tab tab="vm.nmn.tab"></nmn-tab>
+	</ion-content>
+
+	<ion-footer-bar ng-click="vm.play()" align-title="center" class="bar-stable">
+		<h1 class="title">{{vm.playing ? 'Stop' : 'Play'}}</h1>
+	</ion-footer-bar>
+</ion-view>

@@ -1,0 +1,12 @@
+<div title="{{vm.note|json}}}" ng-class="{positive:vm.note.extend}">
+	<span ng-if="vm.note.o > 0" ng-repeat="item in vm.octave track by $index" class="octave">&middot;</span>
+	<div>
+		<span>
+			<sup>{{vm.accidentals}}</sup><span>{{vm.number}}</span>
+		</span>
+		<span ng-repeat="item in vm.dash track by $index">-</span>
+	</div>
+	<hr ng-repeat="item in vm.hr track by $index">
+	<span ng-if="vm.note.o < 0" ng-repeat="item in vm.octave track by $index" class="octave">&middot;</span>
+</div>
+<span ng-repeat="item in vm.dotted track by $index">&middot;</span>
