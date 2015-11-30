@@ -10,11 +10,13 @@
 	;
 
 	function Test(
-		nmn
+		nmn,
+		$scope
 	) {
 		var vm;
 
 		vm = this;
+		vm.nmn = nmn;
 		vm.tab = [];
 		vm.note = {
 			d: 0,
@@ -23,12 +25,23 @@
 			t: 4,
 		};
 
-		vm.add = function() {
-			vm.tab.push(angular.copy(vm.note));
+		vm.add = function(pos) {
+			vm.tab.splice(nmn.index + pos, 0, angular.copy(vm.note));
+			nmn.index = vm.tab.length - 1;
 		};
 
 		vm.load = function() {
-			vm.tab = JSON.parse(localStorage.getItem('test')) || [];
+			vm.song = JSON.parse(localStorage.getItem('test')) || {
+				pitch: 0,
+				tab: [],
+			};
+			vm.tab = vm.song.tab;
+			nmn.settings.pitch = vm.song.pitch;
+			nmn.index = 0;
+		};
+
+		vm.pitch = function(n) {
+			nmn.settings.pitch += n;
 		};
 
 		vm.play = function() {
@@ -36,11 +49,16 @@
 		};
 
 		vm.save = function() {
-			localStorage.setItem('test', JSON.stringify(vm.tab));
+			localStorage.setItem('test', JSON.stringify({
+				pitch: nmn.settings.pitch,
+				tab: vm.tab,
+			}));
 		};
 
-		vm.song = function() {
-			vm.tab = song();
+		vm.getSong = function() {
+			vm.song = getSong();
+			vm.tab = vm.song.tab;
+			nmn.settings.pitch = vm.song.pitch;
 		};
 
 		vm.stop = function() {
@@ -57,14 +75,22 @@
 		};
 
 		vm.remove = function() {
-			vm.tab.pop();
+			vm.tab.splice(nmn.index, 1);
+			if (nmn.index > 0) {
+				nmn.index--;
+			}
 		};
+
+		nmn.onended = function() {
+			$scope.$digest();
+		};
+		vm.getSong();
 	}
 }());
 
-function song() {
-return [
-{"d":0,"n":4,"o":0,"t":4, "note": "A"},
+function getSong() {
+return {pitch:-30,tab:[
+{"d":0,"n":4,"o":0,"t":4, "note": "Verse 1"},
 {"d":0,"n":5,"o":0,"t":4},
 {"d":0,"n":6,"o":0,"t":2},
 {"d":0,"n":4,"o":0,"t":4},
@@ -82,7 +108,7 @@ return [
 {"d":0,"n":6,"o":0,"t":16},
 {"d":1,"n":0,"o":0,"t":8},
 
-{"d":0,"n":4,"o":0,"t":16, "note": "B"},
+{"d":0,"n":4,"o":0,"t":16, "note": "Chorus 1"},
 {"d":0,"n":4,"o":0,"t":16},
 {"d":0,"n":1,"o":0,"t":32},
 {"d":0,"n":4,"o":0,"t":16},
@@ -157,7 +183,7 @@ return [
 {"d":0,"n":5,"o":0,"t":16},
 {"d":0,"n":6,"o":0,"t":8},
 
-{"d":0,"n":4,"o":0,"t":16, "note": "C"},
+{"d":0,"n":4,"o":0,"t":16, "note": "Chorus 2"},
 {"d":0,"n":4,"o":0,"t":16},
 {"d":0,"n":1,"o":0,"t":32},
 {"d":0,"n":4,"o":0,"t":16},
@@ -231,7 +257,7 @@ return [
 {"d":0,"n":3,"o":0,"t":16},
 {"d":0,"n":4,"o":0,"t":8},
 
-{"d":0,"n":4,"o":0,"t":16, "note": "D"},
+{"d":0,"n":4,"o":0,"t":16, "note": "Bridge 1"},
 {"d":0,"n":1,"o":0,"t":16},
 {"d":0,"n":4,"o":0,"t":16},
 
@@ -268,16 +294,18 @@ return [
 {"d":0,"n":2,"o":0,"t":16},
 {"d":0,"n":4,"o":0,"t":8},
 
-{"d":0,"n":0,"o":0,"t":1},
+{"d":0,"n":0,"o":0,"t":1, "note": "Verse 2"},
 {"d":0,"n":0,"o":0,"t":2},
 {"d":0,"n":0,"o":0,"t":4},
-{"d":0,"n":0,"o":0,"t":8},
-{"d":0,"n":1,"o":0,"t":4},
+{"d":0,"n":0,"o":0,"t":32},
+{"d":2,"n":1,"o":0,"t":8},
+
 {"d":0,"n":0,"o":0,"t":2},
 {"d":0,"n":0,"o":0,"t":16},
 {"d":1,"n":6,"o":0,"t":8},
 {"d":0,"n":5,"o":0,"t":16},
-{"d":0,"n":6,"o":0,"t":8},
+{"d":1,"n":6,"o":0,"t":8},
+
 {"d":0,"n":0,"o":0,"t":1},
 
 {"d":0,"n":4,"o":0,"t":16},
@@ -435,7 +463,7 @@ return [
 {"d":0,"n":1,"o":0,"t":16},
 {"d":0,"n":3,"o":0,"t":16},
 {"d":0,"n":4,"o":0,"t":16},
-{"d":1,"n":5,"o":0,"t":16},
+{"d":0,"n":5,"o":0,"t":16},
 
 {"d":0,"n":4,"o":0,"t":16},
 {"d":0,"n":4,"o":0,"t":16},
@@ -556,7 +584,9 @@ return [
 {"d":0,"n":4,"o":0,"t":16},
 {"d":0,"n":4,"o":0,"t":16},
 {"d":0,"n":1,"o":0,"t":8},
-{"d":1,"n":5,"o":0,"t":16},
+{"d":0,"n":5,"o":0,"t":8},
+
+{"d":0,"n":0,"o":0,"t":16},
 
 {"d":0,"n":0,"o":0,"t":1},
 {"d":0,"n":0,"o":0,"t":1},
@@ -604,9 +634,9 @@ return [
 {"d":0,"n":5,"o":0,"t":4},
 {"d":0,"n":6,"o":0,"t":2},
 
-{"d":1,"n":0,"o":0,"t":2},
+{"d":1,"n":0,"o":0,"t":2, "signature": "3/4"},
 
-{"d":0,"n":4,"o":0,"t":16, "note": "F"},
+{"d":0,"n":4,"o":0,"t":16, "note": "F", "signature": "4/4"},
 {"d":0,"n":4,"o":0,"t":16},
 {"d":0,"n":1,"o":0,"t":32},
 {"d":0,"n":4,"o":0,"t":16},
@@ -820,5 +850,5 @@ return [
 {"d":0,"n":5,"o":0,"t":16},
 {"d":0,"n":5,"o":0,"t":16},
 {"d":0,"n":6,"o":0,"t":16},
-];
+]};
 }

@@ -1,0 +1,3 @@
+<div ng-repeat="bar in vm.bars">
+	<nmn-note ng-click="vm.select(item)" ng-class="{assertive:item.index===vm.nmn.playIndex,selected:item.index===vm.nmn.index}" note="item" ng-repeat="item in bar track by $index">{{item|json}}</nmn-note>
+</div>

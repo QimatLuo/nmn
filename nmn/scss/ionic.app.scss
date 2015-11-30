@@ -28,3 +28,28 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .item-divider {
 	clear: both;
 }
+
+nmn-tab {
+	nmn-note {
+		font-family: "Courier New", Courier, monospace;
+		cursor: pointer;
+
+		&.selected {
+			font-weight: bold;
+		}
+
+		> * {
+			display: inline-block;
+			padding-top: 1.2em
+		}
+
+		hr {
+			margin: 0;
+		}
+
+		.octave {
+			display: block;
+			line-height: 0.3em;
+		}
+	}
+}
