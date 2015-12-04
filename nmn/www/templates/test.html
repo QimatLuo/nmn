@@ -40,7 +40,7 @@
 		<div ng-click="vm.play()" class="buttons">
 			<button class="button">Play</button>
 		</div>
-		<h1 class="title">{{vm.nmn.settings.pitch}}</h1>
+		<h1 class="title">{{vm.nmn.settings.pitch}} key / {{vm.nmn.settings.bpm}} bpm</h1>
 		<div ng-click="vm.stop()" class="buttons">
 			<button class="button">Stop</button>
 		</div>
@@ -50,6 +50,12 @@
 		</div>
 		<div ng-click="vm.pitch(-1)" class="buttons">
 			<button class="button">Pitch-</button>
+		</div>
+		<div ng-click="vm.bpm(1)" class="buttons">
+			<button class="button">Bpm+</button>
+		</div>
+		<div ng-click="vm.bpm(-1)" class="buttons">
+			<button class="button">Bpm-</button>
 		</div>
 	</ion-footer-bar>
 </ion-view>

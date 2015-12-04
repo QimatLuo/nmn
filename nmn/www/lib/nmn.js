@@ -55,7 +55,11 @@
 			scope: {
 				tab: '=',
 			},
-			templateUrl: 'lib/nmn-tab.html',
+			template: '\
+				<div ng-repeat="bar in vm.bars">\
+					<nmn-note ng-click="vm.select(item)" ng-class="{assertive:item.index===vm.nmn.playIndex,selected:item.index===vm.nmn.index}" note="item" ng-repeat="item in bar track by $index">{{item|json}}</nmn-note>\
+				</div>\
+			',
 		};
 
 		function controller(
@@ -91,7 +95,7 @@
 									sum = vm.bars[vm.bars.length - 1]
 										.reduce(
 											function(sum, note) {
-												return sum + 1 / note.t + 1 / note.t * nmn.progression(note.d);
+												return sum + 1 / note.t * nmn.progression(note.d);
 											},
 											0
 										);
@@ -99,26 +103,34 @@
 								mod = sum - key;
 
 								if (mod > 0) {
-									var copy, last, mod;
+									var copy, last, loop, mod;
 
 									last = array[i - 1];
 									last.extend = true;
 									copy = angular.copy(last);
+									loop = mod;
+
+									while (loop >= 2) {
+										copy.d = 0;
+										copy.t = 1;
+										vm.bars.push([copy]);
+										copy = angular.copy(last);
+										loop--;
+									}
 
 									mod2tempo(copy, mod);
-									mod2tempo(last, (1 / last.t + 1 / last.t * nmn.progression(last.d) - mod));
-
+									mod2tempo(last, (1 / last.t * nmn.progression(last.d) - mod));
 									vm.bars.push([copy]);
+
+									if (copy.t === 1) {
+										vm.bars.push([]);
+									}
 								} else if (mod === 0) {
 									vm.bars.push([]);
 								}
 
 								vm.bars[vm.bars.length - 1].push(note);
-								vm.tempo += 1 / note.t;
-
-								if (note.d) {
-									vm.tempo += 1 / note.t * nmn.progression(note.d);
-								}
+								vm.tempo += 1 / note.t * nmn.progression(note.d);
 
 								if (note.signature) {
 									key = eval(note.signature);
@@ -138,6 +150,13 @@
 
 			lv = 1;
 			steps = [];
+			mod %= 1;
+
+			if (mod === 0) {
+				note.t = 1;
+				note.d = 0;
+				return note;
+			}
 
 			while (mod !== 0) {
 				if (mod >= lv) {
@@ -208,7 +227,6 @@
 
 				output.oscillators.push(oscillator);
 			},
-
 			progression: function(n) {
 				var sum;
 
@@ -219,7 +237,7 @@
 					n--;
 				}
 
-				return sum;
+				return 1 + sum;
 			},
 			settings: {
 				bpm: 60,
@@ -272,15 +290,7 @@
 		}
 
 		function tempo2second(note) {
-			var sec;
-
-			sec = 60 / output.settings.bpm * 4 / note.t;
-
-			if (note.d) {
-				sec = sec * (1 + output.progression(note.d));
-			}
-
-			return sec;
+			return 60 / output.settings.bpm * 4 / note.t * output.progression(note.d);
 		}
 	}
 }());

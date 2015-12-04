@@ -30,6 +30,10 @@
 			nmn.index = vm.tab.length - 1;
 		};
 
+		vm.bpm = function(n) {
+			nmn.settings.bpm += n;
+		};
+
 		vm.load = function() {
 			vm.song = JSON.parse(localStorage.getItem('test')) || {
 				pitch: 0,
