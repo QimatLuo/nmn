@@ -189,6 +189,7 @@
 
 				output.oscillators = [];
 				output.playIndex = output.index;
+				output.playing = true;
 				sec = audioCtx.currentTime;
 				array = array || output.tab;
 
@@ -204,6 +205,7 @@
 						}
 					);
 			},
+			playing: false,
 			playIndex: 0,
 			playNote: function(note, start) {
 				var oscillator, semitone;
@@ -223,7 +225,12 @@
 
 				oscillator.index = output.oscillators.length;
 				oscillator.onended = function() {
-					output.playIndex = output.index + this.index + 1;
+					if (this.index + 1 >= output.oscillators.length) {
+						output.playing = false;
+					} else {
+						output.playIndex = output.index + this.index + 1;
+					}
+
 					output.onended(this);
 				};
 
@@ -269,6 +276,8 @@
 				pitch: 0,
 			},
 			stop: function() {
+				output.playing = false;
+
 				output.oscillators.slice(output.playIndex)
 					.forEach(
 						function(o) {

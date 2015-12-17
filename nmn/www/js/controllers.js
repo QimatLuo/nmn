@@ -112,9 +112,7 @@
 		};
 
 		vm.play = function() {
-			vm.playing = !vm.playing;
-
-			if (vm.playing) {
+			if (!nmn.playing) {
 				nmn.play();
 			} else {
 				nmn.stop();
@@ -138,9 +136,6 @@
 		};
 
 		nmn.onended = function(oscillator) {
-			if (oscillator.index + 1 + nmn.index === nmn.tab.length) {
-				vm.playing = false;
-			}
 			$scope.$digest();
 		};
 	}
