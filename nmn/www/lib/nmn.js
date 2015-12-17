@@ -247,6 +247,8 @@
 
 				oscillator.index = output.oscillators.length;
 				oscillator.onended = function() {
+					if (!output.playing) return;
+
 					if (this.index + 1 >= output.oscillators.length) {
 						output.playing = false;
 					} else {
@@ -300,9 +302,10 @@
 			stop: function() {
 				output.playing = false;
 
-				output.oscillators.slice(output.playIndex)
+				output.oscillators
 					.forEach(
 						function(o) {
+							o.onended = null;
 							o.stop();
 						}
 					);
