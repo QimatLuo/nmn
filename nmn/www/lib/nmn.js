@@ -180,6 +180,7 @@
 		audioCtx = new AudioContext();
 
 		output = {
+			gain: audioCtx.createGain(),
 			index: 0,
 			onended: function() {},
 			oscillators: [],
@@ -211,7 +212,8 @@
 
 				semitone = number2semitone(note) + octave2semitone(note) + accidentals2semitone(note);
 				oscillator.frequency.value = melScale(semitone);
-				oscillator.connect(audioCtx.destination);
+				oscillator.connect(output.gain);
+				output.gain.connect(audioCtx.destination);
 
 				start = start || audioCtx.currentTime;
 				oscillator.start(start);
