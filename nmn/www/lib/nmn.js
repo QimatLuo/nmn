@@ -23,6 +23,9 @@
 		};
 
 		function controller(
+			nmn,
+			$element,
+			$ionicScrollDelegate,
 			$scope
 		) {
 			var vm;
@@ -45,6 +48,25 @@
 				vm.hr.push(null);
 				vm.tempo /= 2;
 			}
+
+			vm.class = function() {
+				var output;
+
+				output = {};
+
+				if (vm.note.index === nmn.playIndex) {
+					output.assertive = true;
+					if (nmn.playing) {
+						$ionicScrollDelegate.scrollTo(0, $element[0].offsetTop, true);
+					}
+				}
+
+				if (vm.note.index === nmn.index) {
+					output.selected = true;
+				}
+
+				return output;
+			};
 		}
 	}
 
@@ -58,7 +80,7 @@
 			},
 			template: '\
 				<div ng-repeat="bar in vm.bars">\
-					<nmn-note ng-click="vm.select(item)" ng-class="{assertive:item.index===vm.nmn.playIndex,selected:item.index===vm.nmn.index}" note="item" ng-repeat="item in bar track by $index">{{item|json}}</nmn-note>\
+					<nmn-note ng-click="vm.select(item)" note="item" ng-repeat="item in bar track by $index">{{item|json}}</nmn-note>\
 				</div>\
 			',
 		};

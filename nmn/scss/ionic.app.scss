@@ -29,27 +29,39 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	clear: both;
 }
 
+ion-side-menu[side="right"] {
+	.button-bar {
+		a:nth-of-type(2) {
+			flex-basis: 50%;
+		}
+	}
+}
+
 nmn-tab {
 	nmn-note {
 		font-family: "Courier New", Courier, monospace;
 		cursor: pointer;
 
-		&.selected {
-			font-weight: bold;
-		}
-
-		> * {
+		> div {
 			display: inline-block;
-			padding-top: 1.2em
-		}
 
-		hr {
-			margin: 0;
-		}
+			&.selected {
+				font-weight: bold;
+			}
 
-		.octave {
-			display: block;
-			line-height: 0.3em;
+			> * {
+				display: inline-block;
+				padding-top: 1.2em
+			}
+
+			hr {
+				margin: 0;
+			}
+
+			.octave {
+				display: block;
+				line-height: 0.3em;
+			}
 		}
 	}
 }
